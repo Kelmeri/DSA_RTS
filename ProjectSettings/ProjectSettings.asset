@@ -162,7 +162,8 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Standalone: com.DefaultCompany.DSA-RTS
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -682,8 +683,8 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: DSA_RTS
-  metroPackageVersion: 
+  metroPackageName: DSARTS
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -691,7 +692,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: DSA_RTS
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: DSA_RTS
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
