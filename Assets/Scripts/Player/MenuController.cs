@@ -9,10 +9,10 @@ namespace RTS.Runtime
     public class MenuController : MonoBehaviour
     {
 
-        [SerializeField] private GameObject _menuUI; // Reference to the menu UI GameObject
-        [SerializeField] private PlayerControls _playerControls; // Reference to the PlayerControls script
-        [SerializeField] private Button _resumeButton; // Reference to the resume button in the menu UI
-        [SerializeField] private Button _MainMenuButton; // Reference to the main menu button in the menu UI
+        [SerializeField] private GameObject _menuUI;
+        [SerializeField] private PlayerControls _playerControls;
+        [SerializeField] private Button _resumeButton;
+        [SerializeField] private Button _MainMenuButton;
         [SerializeField] private int _MainMenuIndex;
 
         private void Start()

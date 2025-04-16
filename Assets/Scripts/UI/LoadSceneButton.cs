@@ -8,7 +8,7 @@ namespace RTS.Runtime
     public class LoadSceneButton : MonoBehaviour
     {
         [SerializeField] private int _sceneToLoad; // The index of the scene to load
-        private UnityEngine.UI.Button _button; // Reference to the button component
+        private UnityEngine.UI.Button _button;
 
         private void Awake()
         {

@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RTS.Runtime
 {
     public class CameraController : MonoBehaviour
     {
-        [SerializeField] private Transform _cameraTransform; // Reference to the camera transform
-        [SerializeField] private PlayerDataSO _playerData; // Reference to the PlayerDataSO scriptable object
+        [SerializeField] private Transform _cameraTransform;
+        [SerializeField] private PlayerDataSO _playerData;
         [SerializeField] private Collider _cameraBounds;
-        [SerializeField] private PlayerControls _playerControls; // Reference to the PlayerControls script
+        [SerializeField] private PlayerControls _playerControls;
 
         private void Start()
         {
@@ -27,7 +25,6 @@ namespace RTS.Runtime
         }
         private void MoveAction(Vector2 moveInput)
         {
-            Debug.Log($"Move Input: {moveInput}"); // Log the move input for debugging
             // Handle the camera movement here (e.g., move the camera based on the input)
             Vector3 moveDirection = new Vector3(moveInput.x, 0, moveInput.y); // Convert to 3D direction
             _cameraTransform.position += moveDirection * Time.deltaTime * _playerData.CameraSpeed; // Move the camera based on input and time

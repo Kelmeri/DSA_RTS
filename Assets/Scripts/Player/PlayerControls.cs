@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem; // Added for PlayerInput
+using UnityEngine.InputSystem;
 
 namespace RTS.Runtime
 {
-    // This class is responsible for handling player controls in the game.
-    // It will be used to manage player input and interactions with the game world.
     [RequireComponent(typeof(PlayerInput))]
     public class PlayerControls : MonoBehaviour
     {
-        private PlayerInput _playerInput; // Reference to the PlayerInput component
-        [SerializeField] private InputActionReference _escapeAction; // Reference to the escape action
-        [SerializeField] private InputActionReference _moveAction; // Reference to the move action
+        private PlayerInput _playerInput;
+        [SerializeField] private InputActionReference _escapeAction;
+        [SerializeField] private InputActionReference _moveAction;
         public event System.Action OnEscapeActionEvent; // Event to notify when the escape action is performed
         public event System.Action<Vector2> OnMoveActionEvent; // Event to notify when the move action is performed
         private bool _MoveActionPressed;
@@ -23,7 +19,6 @@ namespace RTS.Runtime
             _playerInput = GetComponent<PlayerInput>();
 
             UnityEngine.Assertions.Assert.IsNotNull(_playerInput, "PlayerInput component is missing on this GameObject.");
-
             UnityEngine.Assertions.Assert.IsNotNull(_escapeAction, "Escape action reference is missing.");
             UnityEngine.Assertions.Assert.IsNotNull(_moveAction, "Move action reference is missing.");
         }
@@ -46,8 +41,7 @@ namespace RTS.Runtime
             }
             // Handle the move action here (e.g., move the player character)
             Vector2 moveInput = _moveAction.action.ReadValue<Vector2>();
-            Debug.Log($"Move Input: {moveInput}"); // Log the move input for debugging
-                                                   //Not optimal idc
+            //Not optimal idc
             OnMoveActionEvent?.Invoke(moveInput); // Invoke the move action event with the input value
             if (!_moveAction.action.IsPressed())
             {
@@ -60,13 +54,5 @@ namespace RTS.Runtime
             // Invoke the escape action event when the action is performed
             OnEscapeActionEvent?.Invoke();
         }
-        // private void OnMoveAction(InputAction.CallbackContext context)
-        // {
-        //     // Handle the move action here (e.g., move the player character)
-        //     Vector2 moveInput = context.ReadValue<Vector2>();
-        //     Debug.Log($"Move Input: {moveInput}"); // Log the move input for debugging
-        //     OnMoveActionEvent?.Invoke(moveInput); // Invoke the move action event with the input value
-        // }
     }
-
 }

@@ -6,6 +6,7 @@ namespace RTS.Runtime
 {
     public class GameManager : MonoBehaviour
     {
+        [SerializeField] private SettingsSO _settingsSO;
         public static GameManager Instance { get; private set; } // Singleton instance of GameManager
         private void Awake()
         {
@@ -17,7 +18,6 @@ namespace RTS.Runtime
             Instance = this; // Set the singleton instance
             DontDestroyOnLoad(gameObject); // Prevent this GameObject from being destroyed when loading a new scene
         }
-        [SerializeField] private SettingsSO _settingsSO; // Reference to the Settings ScriptableObject
 
         private void Start()
         {

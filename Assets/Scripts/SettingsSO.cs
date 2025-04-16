@@ -10,20 +10,20 @@ namespace RTS.Runtime
         [SerializeField] private int _masterVolume = 100; // Master volume level (0-100)
         public int MasterVolume
         {
-            get => _masterVolume; // Getter for master volume
-            set => _masterVolume = Mathf.Clamp(value, 0, 100); // Setter for master volume with clamping
+            get => _masterVolume;
+            set => _masterVolume = Mathf.Clamp(value, 0, 100);
         }
         [SerializeField] private int _musicVolume = 100; // Music volume level (0-100)
         public int MusicVolume
         {
-            get => _musicVolume; // Getter for music volume
-            set => _musicVolume = Mathf.Clamp(value, 0, 100); // Setter for music volume with clamping
+            get => _musicVolume;
+            set => _musicVolume = Mathf.Clamp(value, 0, 100);
         }
         [SerializeField] private FrameCap _frameCap = FrameCap._60FPS; // Frame cap setting
         public FrameCap FrameCapSetting
         {
-            get => _frameCap; // Getter for frame cap setting
-            set => _frameCap = value; // Setter for frame cap setting
+            get => _frameCap;
+            set => _frameCap = value;
         }
 
 

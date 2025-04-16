@@ -8,7 +8,7 @@ namespace RTS.Runtime
     {
         private void Awake()
         {
-            DontDestroyOnLoad(gameObject); // Prevent this GameObject from being destroyed when loading a new scene
+            DontDestroyOnLoad(gameObject);
         }
     }
 

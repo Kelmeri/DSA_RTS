@@ -11,8 +11,8 @@ namespace RTS.Runtime
         [SerializeField] private int _cameraSpeed = 10; // Speed of the camera movement
         public int CameraSpeed
         {
-            get => _cameraSpeed; // Getter for camera speed
-            set => _cameraSpeed = value; // Setter for camera speed
+            get => _cameraSpeed;
+            set => _cameraSpeed = value;
         }
     }
 
