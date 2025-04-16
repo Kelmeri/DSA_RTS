@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4255b731153631409846450bcbae981, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  _cameraSpeed: 100
+  _cameraSpeed: 70
