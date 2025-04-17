@@ -184,7 +184,7 @@ MonoBehaviour:
   _target: {fileID: 0}
   _speed: 5
   _stopDistance: 0.5
-  _rotationSpeed: 5
+  _rotationSpeed: 100
 --- !u!114 &3297639781078002854
 MonoBehaviour:
   m_ObjectHideFlags: 0

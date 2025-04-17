@@ -12,6 +12,7 @@ public class Pathfinder : MonoBehaviour
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _stopDistance = 0.1f; // Distance to stop from the target
     [SerializeField] private float _rotationSpeed = 5f;
+    private Rigidbody _rigidbody; // Reference to the Rigidbody component
 
     private List<AStarSearch.Pair> _path = new(); // List to store the path points
     private int _currentPathIndex = 0; // Index of the current path point
@@ -32,10 +33,14 @@ public class Pathfinder : MonoBehaviour
 
     private void Start()
     {
+        _rigidbody = GetComponent<Rigidbody>(); // Get the Rigidbody component attached to the object
+
         UnityEngine.Assertions.Assert.IsNotNull(_pointcloudGenerator, "PointcloudGenerator reference is missing in Pathfinder.");
         UnityEngine.Assertions.Assert.IsNotNull(_target, "Target reference is missing in Pathfinder.");
+        UnityEngine.Assertions.Assert.IsNotNull(_bottomOfUnit, "BottomOfUnit reference is missing in Pathfinder.");
+        UnityEngine.Assertions.Assert.IsNotNull(_rigidbody, "Rigidbody reference is missing in Pathfinder.");
 
-        _pointcloudGenerator.OnPointCloudGenerated += GeneratePath2; // Subscribe to the event when the point cloud is generated
+        _pointcloudGenerator.OnPointCloudGenerated += GeneratePath; // Subscribe to the event when the point cloud is generated
     }
 
     private void Update()
@@ -45,8 +50,9 @@ public class Pathfinder : MonoBehaviour
             MoveToNextPoint();
         }
     }
-    private void GeneratePath2()
+    private void GeneratePath()
     {
+        Debug.Log("Generating path..."); // Log the path generation process
         AStarSearch.Pair start = GetClosestNode(transform.position, _pointcloudGenerator.GeneratedPointCloud); // Start point (bottom of the unit)
         AStarSearch.Pair end = GetClosestNode(_target.position, _pointcloudGenerator.GeneratedPointCloud); // End point (target position)
         Debug.Log(_target.position);
@@ -54,6 +60,7 @@ public class Pathfinder : MonoBehaviour
 
         _path = AStarSearch.AStar(_pointcloudGenerator.GeneratedPointCloud.Grid, start, end); // Call the A* search algorithm
         IsMoving = true; // Set the moving flag to true
+        Debug.Log("Path generated with " + _path.Count + " points."); // Log the number of points in the path
 
     }
     private static AStarSearch.Pair GetClosestNode(Vector3 position, PointcloudGenerator.PointCloud pointCloud)
@@ -77,12 +84,8 @@ public class Pathfinder : MonoBehaviour
     {
         if (_currentPathIndex >= _path.Count)
         {
-            Rigidbody rb = GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.velocity = Vector3.zero; // Stop the rigidbody movement
-                rb.angularVelocity = Vector3.zero; // Stop the rigidbody rotation
-            }
+            _rigidbody.velocity = Vector3.zero; // Stop the rigidbody movement
+            _rigidbody.angularVelocity = Vector3.zero; // Stop the rigidbody rotation
             _currentPathIndex = 0; // Reset the path index to the start
             IsMoving = false; // Stop moving if the end of the path is reached
             return;

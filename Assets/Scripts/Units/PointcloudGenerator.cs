@@ -12,12 +12,25 @@ namespace RTS.Runtime
         private const int GRIDSIZEX = 100;
         private float _gridSpacingMeters = 1f;
         public PointCloud GeneratedPointCloud { get; private set; } // List to store point cloud points
-        
+
         public event Action OnPointCloudGenerated; // Event to notify when the point cloud is generated
 
         private void Start()
         {
-            GeneratePointCloud();
+
+            // GeneratePointCloud();
+        }
+
+        private void Update()
+        {
+            //TODO: Implement better
+            //dont do if exists
+            if (GeneratedPointCloud != null)
+                return;
+            if (Input.GetKeyDown(KeyCode.G)) // Press G to regenerate the point cloud 
+            {
+                GeneratePointCloud(); // Call the method to generate the point cloud
+            }
         }
 
         private void GeneratePointCloud()
@@ -53,8 +66,10 @@ namespace RTS.Runtime
                     GeneratedPointCloud.Grid[x, y] = 1; // mark all grid cells as walkable
                 }
             }
+            Debug.Log("Point cloud generated with " + pointCloudPoints.Count + " points."); // Log the number of points in the point cloud
             // Notify subscribers that the point cloud has been generated
             OnPointCloudGenerated?.Invoke();
+            Debug.Log("Point cloud generated."); // Log the point cloud generation
         }
         public class PointCloud
         {
@@ -64,7 +79,7 @@ namespace RTS.Runtime
             {
                 Grid = grid;
                 Points = points;
-            }   
+            }
         }
         public class PointCloudPoint
         {

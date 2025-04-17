@@ -263,7 +263,7 @@ namespace RTS.Runtime
             {
                 Pair p = Path.Peek();
                 Path.Pop();
-                Console.Write(" -> ({0},{1}) ", p.first, p.second);
+                UnityEngine.Debug.Log($" -> ({p.first},{p.second})");
             }
         }
 
