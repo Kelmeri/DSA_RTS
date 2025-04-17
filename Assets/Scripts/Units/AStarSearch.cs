@@ -267,32 +267,5 @@ namespace RTS.Runtime
             }
         }
 
-        // Driver method
-        // public static void Main(string[] args)
-        // {
-        //     /* Description of the Grid-
-        //         1--> The cell is not blocked
-        //         0--> The cell is blocked */
-        //     int[,] grid =
-        //     {
-        //     {1, 0, 1, 1, 1, 1, 0, 1, 1, 1},
-        //     {1, 1, 1, 0, 1, 1, 1, 0, 1, 1},
-        //     {1, 1, 1, 0, 1, 1, 0, 1, 0, 1},
-        //     {0, 0, 1, 0, 1, 0, 0, 0, 0, 1},
-        //     {1, 1, 1, 0, 1, 1, 1, 0, 1, 0},
-        //     {1, 0, 1, 1, 1, 1, 0, 1, 0, 0},
-        //     {1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-        //     {1, 0, 1, 1, 1, 1, 0, 1, 1, 1},
-        //     {1, 1, 1, 0, 0, 0, 1, 0, 0, 1}
-        // };
-
-        //     // Source is the left-most bottom-most corner
-        //     Pair src = new Pair(8, 0);
-
-        //     // Destination is the left-most top-most corner
-        //     Pair dest = new Pair(0, 0);
-
-        //     AStar(grid, src, dest);
-        // }
     }
 }
