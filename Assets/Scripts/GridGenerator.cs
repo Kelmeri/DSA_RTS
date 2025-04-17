@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,12 +9,15 @@ public class GridGenerator : MonoBehaviour
     [SerializeField] private List<GameObject> prefabs = new List<GameObject>(); // List of objects to represent nodes
     [SerializeField] private int gridSize = 5; // Size of the grid (N x N)
     [SerializeField] float spacing = 1f; // Spacing of each node
-
+    [SerializeField] private LayerMask groundLayer; // Layer mask for ground
+    
     private List<GameObject> currentNodes = new List<GameObject>(); // List for currently instantiated nodes
 
-    private void RandomPrefab()
+    private GameObject randomPrefab()
     {
-        // Rando stuff here
+        // Select a random prefab from the prefab list
+        int rand = Random.Range(0, prefabs.Count);
+        return prefabs[rand];
     }
 
     [ContextMenu("Generate Grid")]
@@ -23,13 +27,19 @@ public class GridGenerator : MonoBehaviour
 
         if (prefabs == null) Debug.LogError("Prefab is not assigned");
 
+        // Generate grid
         for (int x = 0; x < gridSize; x++)
         {
             for (int y = 0; y < gridSize; y++)
             {
-                Vector3 position = new Vector3(x * spacing, 0, y * spacing);
-              //GameObject node = Instantiate(prefab, position, Quaternion.identity, this.transform);
-              //currentNodes.Add(node);
+                Vector3 position = new Vector3(x * spacing, 10, y * spacing);
+                GameObject node = Instantiate(randomPrefab(), position, Quaternion.identity, this.transform);
+
+                // Make sure object is grounded
+                AdjustToGround(node);
+
+                // Add new node to current nodes
+                currentNodes.Add(node);
             }
         }
     }
@@ -45,6 +55,28 @@ public class GridGenerator : MonoBehaviour
             }
         }
         currentNodes.Clear();
+    }
+
+    private void AdjustToGround(GameObject obj) 
+    {
+        Ray rayDown = new Ray(obj.transform.position, Vector3.down);
+        Ray rayUp = new Ray(obj.transform.position, Vector3.up);
+        RaycastHit hit;
+
+        // Make sure the instantiated object is grounded
+        if (Physics.Raycast(rayDown, out hit, 100f, groundLayer))
+        {
+            Vector3 newPos = obj.transform.position;
+            newPos.y = hit.point.y;
+            obj.transform.position = newPos;
+        }
+        else if (Physics.Raycast(rayUp, out hit, 100f, groundLayer))
+        {
+            Vector3 newPos = obj.transform.position;
+            newPos.y = hit.point.y;
+            obj.transform.position = newPos;
+        }
+        else Debug.LogWarning("No ground detected below or above object at position: " + obj.transform.position);
     }
 }
 
