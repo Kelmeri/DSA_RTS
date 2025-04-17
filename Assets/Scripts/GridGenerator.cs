@@ -28,8 +28,8 @@ public class GridGenerator : MonoBehaviour
             for (int y = 0; y < gridSize; y++)
             {
                 Vector3 position = new Vector3(x * spacing, 0, y * spacing);
-                GameObject node = Instantiate(prefab, position, Quaternion.identity, this.transform);
-                currentNodes.Add(node);
+              //GameObject node = Instantiate(prefab, position, Quaternion.identity, this.transform);
+              //currentNodes.Add(node);
             }
         }
     }
