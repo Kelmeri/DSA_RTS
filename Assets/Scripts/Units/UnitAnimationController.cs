@@ -11,7 +11,8 @@ namespace RTS.Runtime
     [RequireComponent(typeof(Animator))]
     public class UnitAnimationController : MonoBehaviour
     {
-        [SerializeField] private Pathfinder _pathfinder; // Reference to the Pathfinder component
+        [SerializeField] private UnitMovementController _unitMovementController; // Reference to the UnitMovementController component
+        // [SerializeField] private Pathfinder _pathfinder; // Reference to the Pathfinder component
         private Animator _animator; // Reference to the Animator component
 
         // Start is called before the first frame update
@@ -20,8 +21,10 @@ namespace RTS.Runtime
             _animator = GetComponent<Animator>(); // Get the Animator component
 
             UnityEngine.Assertions.Assert.IsNotNull(_animator, "Animator reference is missing in UnitAnimationController.");
-            UnityEngine.Assertions.Assert.IsNotNull(_pathfinder, "Pathfinder reference is missing in UnitAnimationController.");
-            _pathfinder.OnMovingStatusChanged += UpdateAnimationState; // Subscribe to the OnMovingStatusChanged event
+            UnityEngine.Assertions.Assert.IsNotNull(_unitMovementController, "UnitMovementController reference is missing in UnitAnimationController.");
+            // UnityEngine.Assertions.Assert.IsNotNull(_pathfinder, "Pathfinder reference is missing in UnitAnimationController.");
+            // _pathfinder.OnMovingStatusChanged += UpdateAnimationState; // Subscribe to the OnMovingStatusChanged event
+            _unitMovementController.OnMovingStatusChanged += UpdateAnimationState; // Subscribe to the OnMovingStatusChanged event
         }
 
         private void UpdateAnimationState(bool isMoving)

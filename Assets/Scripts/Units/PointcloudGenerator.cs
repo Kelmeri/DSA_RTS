@@ -8,8 +8,8 @@ namespace RTS.Runtime
     public class PointcloudGenerator : MonoBehaviour
     {
         private int _heightToCastFromMeters = 500;
-        private const int GRIDSIZEY = 100;
-        private const int GRIDSIZEX = 100;
+        private const int GRIDSIZEY = 200;
+        private const int GRIDSIZEX = 200;
         private float _gridSpacingMeters = 1f;
         public PointCloud GeneratedPointCloud { get; private set; } // List to store point cloud points
 

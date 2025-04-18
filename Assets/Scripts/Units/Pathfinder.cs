@@ -9,27 +9,14 @@ public class Pathfinder : MonoBehaviour
     [SerializeField] private Transform _bottomOfUnit;
     [SerializeField] private PointcloudGenerator _pointcloudGenerator;
     [SerializeField] private Transform _target;
-    [SerializeField] private float _speed = 5f;
-    [SerializeField] private float _stopDistance = 0.1f; // Distance to stop from the target
-    [SerializeField] private float _rotationSpeed = 5f;
+    
+    // [SerializeField] private float _rotationSpeed = 5f;
     private Rigidbody _rigidbody; // Reference to the Rigidbody component
 
     private List<AStarSearch.Pair> _path = new(); // List to store the path points
-    private int _currentPathIndex = 0; // Index of the current path point
-    private bool _isMoving = false; // Flag to indicate if the object is moving
-    public bool IsMoving
-    {
-        get => _isMoving; // Property to get the moving status
-        private set
-        {
-            if (_isMoving != value)
-            {
-                _isMoving = value; // Set the moving status
-                OnMovingStatusChanged?.Invoke(_isMoving); // Invoke the event if the status changes
-            }
-        }
-    }
-    public event Action<bool> OnMovingStatusChanged; // Event to notify when the moving status changes
+    // private int _currentPathIndex = 0; // Index of the current path point
+    
+    public event Action<List<AStarSearch.Pair>> OnPathGenerated; // Event to notify when the path is generated
 
     private void Start()
     {
@@ -43,13 +30,13 @@ public class Pathfinder : MonoBehaviour
         _pointcloudGenerator.OnPointCloudGenerated += GeneratePath; // Subscribe to the event when the point cloud is generated
     }
 
-    private void Update()
-    {
-        if (IsMoving)
-        {
-            MoveToNextPoint();
-        }
-    }
+    // private void FixedUpdate()
+    // {
+    //     if (IsMoving)
+    //     {
+    //         MoveToNextPoint();
+    //     }
+    // }
     private void GeneratePath()
     {
         Debug.Log("Generating path..."); // Log the path generation process
@@ -59,7 +46,8 @@ public class Pathfinder : MonoBehaviour
         Debug.Log(transform.position);
 
         _path = AStarSearch.AStar(_pointcloudGenerator.GeneratedPointCloud.Grid, start, end); // Call the A* search algorithm
-        IsMoving = true; // Set the moving flag to true
+        OnPathGenerated?.Invoke(_path); // Invoke the event when the path is generated
+        // IsMoving = true; // Set the moving flag to true
         Debug.Log("Path generated with " + _path.Count + " points."); // Log the number of points in the path
 
     }
@@ -80,52 +68,41 @@ public class Pathfinder : MonoBehaviour
         }
         return closestNode; // Return the closest node
     }
-    private void MoveToNextPoint()
-    {
-        if (_currentPathIndex >= _path.Count)
-        {
-            _rigidbody.velocity = Vector3.zero; // Stop the rigidbody movement
-            _rigidbody.angularVelocity = Vector3.zero; // Stop the rigidbody rotation
-            _currentPathIndex = 0; // Reset the path index to the start
-            IsMoving = false; // Stop moving if the end of the path is reached
-            return;
-        }
+    // private void MoveToNextPoint()
+    // {
+    //     if (_currentPathIndex >= _path.Count)
+    //     {
+    //         _rigidbody.velocity = Vector3.zero; // Stop the rigidbody movement
+    //         _rigidbody.angularVelocity = Vector3.zero; // Stop the rigidbody rotation
+    //         _currentPathIndex = 0; // Reset the path index to the start
+    //         IsMoving = false; // Stop moving if the end of the path is reached
+    //         return;
+    //     }
 
-        AStarSearch.Pair targetPair = _path[_currentPathIndex];
-        Vector3 targetPosition = GetCoordinatesFromGrid(targetPair, _pointcloudGenerator.GeneratedPointCloud); // Get the target position from the point cloud
+    //     AStarSearch.Pair targetPair = _path[_currentPathIndex];
+    //     Vector3 targetPosition = GetCoordinatesFromGrid(targetPair, _pointcloudGenerator.GeneratedPointCloud); // Get the target position from the point cloud
 
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        float distance = Vector3.Distance(_bottomOfUnit.transform.position, targetPosition);
+    //     Vector3 direction = (targetPosition - transform.position).normalized;
+    //     float distance = Vector3.Distance(_bottomOfUnit.transform.position, targetPosition);
 
-        Vector3 lookDirection = (targetPosition - transform.position).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
-        // lock x and z rotation
-        targetRotation.x = 0;
-        targetRotation.z = 0;
-        // Set the y rotation to the target rotation
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
+    //     Vector3 lookDirection = (targetPosition - transform.position).normalized;
+    //     Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
+    //     // // lock x and z rotation
+    //     targetRotation.x = 0;
+    //     targetRotation.z = 0;
+    //     // Set the y rotation to the target rotation
+    //     transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
 
-        // Move towards the target point
-        transform.position += direction * _speed * Time.deltaTime;
+    //     // Move towards the target point
+    //     transform.position += direction * _speed * Time.deltaTime;
 
-        // Check if the object is close enough to the target point
-        if (distance < _stopDistance)
-        {
-            _currentPathIndex++; // Move to the next point in the path
-        }
-    }
-    private static Vector3 GetCoordinatesFromGrid(AStarSearch.Pair pair, PointcloudGenerator.PointCloud pointCloud)
-    {
-        // Get the coordinates from the grid based on the pair
-        foreach (PointcloudGenerator.PointCloudPoint point in pointCloud.Points)
-        {
-            if (point.GridX == pair.first && point.GridY == pair.second)
-            {
-                return point.Position; // Return the position of the point
-            }
-        }
-        return Vector3.zero; // Return zero if no matching point is found
-    }
+    //     // Check if the object is close enough to the target point
+    //     if (distance < _stopDistance)
+    //     {
+    //         _currentPathIndex++; // Move to the next point in the path
+    //     }
+    // }
+   
 
 
 #if UNITY_EDITOR
@@ -140,8 +117,8 @@ public class Pathfinder : MonoBehaviour
         // Draw a line between the path points
         for (int i = 0; i < _path.Count - 1; i++)
         {
-            Vector3 start = GetCoordinatesFromGrid(_path[i], _pointcloudGenerator.GeneratedPointCloud);
-            Vector3 end = GetCoordinatesFromGrid(_path[i + 1], _pointcloudGenerator.GeneratedPointCloud);
+            Vector3 start = GridUtils.GetCoordinatesFromGrid(_path[i], _pointcloudGenerator.GeneratedPointCloud);
+            Vector3 end = GridUtils.GetCoordinatesFromGrid(_path[i + 1], _pointcloudGenerator.GeneratedPointCloud);
             Gizmos.DrawLine(start, end); // Draw a line between the points
         }
         //Draw bottom of capsule collider
