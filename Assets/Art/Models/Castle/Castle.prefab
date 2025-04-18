@@ -56,6 +56,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Castle
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 56f19dd6b819b2c46aaa966ddfd477a6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7455013156393279727, guid: 56f19dd6b819b2c46aaa966ddfd477a6, type: 3}
+      propertyPath: m_TagString
+      value: PointCloudable
+      objectReference: {fileID: 0}
+    - target: {fileID: 7455013156393279727, guid: 56f19dd6b819b2c46aaa966ddfd477a6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 65702495048144492, guid: 56f19dd6b819b2c46aaa966ddfd477a6, type: 3}

@@ -38,15 +38,13 @@ public class Pathfinder : MonoBehaviour
 
         _path = AStarSearch.AStar(_pointcloudGenerator.GeneratedPointCloud.Grid, start, end); // Call the A* search algorithm
         OnPathGenerated?.Invoke(_path); // Invoke the event when the path is generated
-        // IsMoving = true; // Set the moving flag to true
-        Debug.Log("Path generated with " + _path.Count + " points."); // Log the number of points in the path
 
     }
     private static AStarSearch.Pair GetClosestNode(Vector3 position, PointcloudGenerator.PointCloud pointCloud)
     {
         // Find the closest node to the given position
         float closestDistance = Mathf.Infinity;
-        AStarSearch.Pair closestNode = new AStarSearch.Pair(0, 0); // Initialize closest node
+        AStarSearch.Pair closestNode = new(0, 0); // Initialize closest node
 
         foreach (PointcloudGenerator.PointCloudPoint point in pointCloud.Points)
         {

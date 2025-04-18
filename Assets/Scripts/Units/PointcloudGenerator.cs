@@ -14,6 +14,11 @@ namespace RTS.Runtime
         public PointCloud GeneratedPointCloud { get; private set; } // List to store point cloud points
 
         public event Action OnPointCloudGenerated; // Event to notify when the point cloud is generated
+        private IEnumerator Start()
+        {
+            yield return new WaitForEndOfFrame(); // Wait for the end of the frame 
+            GeneratePointCloud(); // Call the method to generate the point cloud
+        }
 
         private void Update()
         {
@@ -43,8 +48,9 @@ namespace RTS.Runtime
 
                     foreach (RaycastHit hit1 in hits)
                     {
-                        if (hit1.collider.gameObject.isStatic)
+                        if (hit1.collider.gameObject.tag == "PointCloudable")
                         {
+                            Debug.Log("Hit static object: " + hit1.collider.gameObject.name); // Log the name of the static object hit
                             pointCloudPoints.Add(new PointCloudPoint(hit1.point, x, y)); // Add the hit point to the list
                         }
                         break; // Exit the loop after the first hit
@@ -60,10 +66,8 @@ namespace RTS.Runtime
                     GeneratedPointCloud.Grid[x, y] = 1; // mark all grid cells as walkable
                 }
             }
-            Debug.Log("Point cloud generated with " + pointCloudPoints.Count + " points."); // Log the number of points in the point cloud
             // Notify subscribers that the point cloud has been generated
             OnPointCloudGenerated?.Invoke();
-            Debug.Log("Point cloud generated."); // Log the point cloud generation
         }
         public class PointCloud
         {
@@ -98,10 +102,10 @@ namespace RTS.Runtime
             }
             // Visualize the point cloud
             Gizmos.color = Color.red; // Set the color for the point cloud
-            foreach (PointCloudPoint point in GeneratedPointCloud.Points)
-            {
-                Gizmos.DrawSphere(point.Position, 0.1f); // Draw a sphere at each point in the point cloud
-            }
+            // foreach (PointCloudPoint point in GeneratedPointCloud.Points)
+            // {
+            //     Gizmos.DrawSphere(point.Position, 0.1f); // Draw a sphere at each point in the point cloud
+            // }
         }
 #endif
     }

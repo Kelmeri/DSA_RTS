@@ -134,6 +134,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Castle
       objectReference: {fileID: 0}
+    - target: {fileID: 1501438801901679654, guid: 5abcc2b55903a62449f75d3e7d5003b4, type: 3}
+      propertyPath: m_TagString
+      value: PointCloudable
+      objectReference: {fileID: 0}
+    - target: {fileID: 1501438801901679654, guid: 5abcc2b55903a62449f75d3e7d5003b4, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 2278256323640831644, guid: 5abcc2b55903a62449f75d3e7d5003b4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 88.9
@@ -332,7 +340,7 @@ GameObject:
   - component: {fileID: 667202306}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: PointCloudable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
