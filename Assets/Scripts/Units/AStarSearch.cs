@@ -150,7 +150,8 @@ namespace RTS.Runtime
                             // list or if it is blocked, then ignore it.
                             if (!closedList[newX, newY] && IsUnBlocked(grid, newX, newY))
                             {
-                                double gNew = cellDetails[x, y].g + 1.0;
+                                // double gNew = cellDetails[x, y].g + 1.0;
+                                double gNew = cellDetails[x, y].g + GetNodeCost(grid, newX, newY);
                                 double hNew = CalculateHValue(newX, newY, dest);
                                 double fNew = gNew + hNew;
 
@@ -182,7 +183,7 @@ namespace RTS.Runtime
             // blockages)
             if (!foundDest)
                 UnityEngine.Debug.Log("Failed to find the Destination Cell");
-            
+
             return null; //TODO: Handle this case properly
 
         }
@@ -218,8 +219,8 @@ namespace RTS.Runtime
         // blocked or not
         public static bool IsUnBlocked(int[,] grid, int row, int col)
         {
-            // Returns true if the cell is not blocked else false
-            return grid[row, col] == 1;
+            // Returns true if the cell is walkable (value > 0)
+            return grid[row, col] > 0;
         }
 
         // A Utility Function to check whether destination cell has
@@ -263,8 +264,20 @@ namespace RTS.Runtime
             {
                 Pair p = Path.Peek();
                 Path.Pop();
-                UnityEngine.Debug.Log($" -> ({p.first},{p.second})");
+                // UnityEngine.Debug.Log($" -> ({p.first},{p.second})");
             }
+        }
+        /// <summary>
+        /// /// Get the cost of a node in the grid. This can be used to determine the cost of moving to that node.
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
+        public static double GetNodeCost(int[,] grid, int row, int col)
+        {
+            // Return the cost of the node (default to double.MaxValue for blocked nodes)
+            return grid[row, col] > 0 ? grid[row, col] : double.MaxValue;
         }
 
     }
