@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
-using UnityEngine.InputSystem.EnhancedTouch;
 
 namespace RTS.Runtime
 {
@@ -44,16 +43,6 @@ namespace RTS.Runtime
 
             };
         }
-        // private IEnumerator MoveThroughPath(List<AStarSearch.Pair> path)
-        // {
-        //     IsMoving = true; // Set the moving status to true
-        //     foreach (AStarSearch.Pair point in path) // Iterate through the path points
-        //     {
-        //         Vector3 targetPosition = GridUtils.GetCoordinatesFromGrid(point, _pointcloudGenerator.GeneratedPointCloud); // Create a target position from the path point
-        //         yield return MoveToTarget(targetPosition); // Move to the target position
-        //     }
-        //     IsMoving = false; // Stop moving when the path is completed
-        // }
         private void FixedUpdate()
         {
             if (!IsMoving) // Check if the object is moving
@@ -88,51 +77,7 @@ namespace RTS.Runtime
         {
 
             Vector3 direction = (positionToMoveTo - objectToMove.position).normalized; // Calculate the direction to the target
-            // float distance = Vector3.Distance(objectToMove.position, positionToMoveTo); // Calculate the distance to the target
-
-            // Vector3 lookDirection = (positionToMoveTo - objectToMove.position).normalized;
-            // Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
-            // // // lock x and z rotation
-            // targetRotation.x = 0;
-            // targetRotation.z = 0;
-            // // Set the y rotation to the target rotation
-            // objectToMove.rotation = Quaternion.RotateTowards(objectToMove.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
-
-
             objectToMove.position += direction * speed * Time.deltaTime; // Move towards the target position
         }
-        // private void MoveToTarget(AStarSearch.Pair point)
-        // {
-
-        //     // private IEnumerator MoveToTarget(Vector3 targetPosition)
-        //     // {
-        //     //     bool reachedTarget = false; // Flag to indicate if the target is reached
-        //     //     while (!reachedTarget)
-        //     //     {
-        //     //         WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate(); // Create a wait for fixed update object
-        //     //         yield return waitForFixedUpdate; // Wait for the next fixed update
-        //     //         Vector3 direction = (targetPosition - transform.position).normalized; // Calculate the direction to the target
-        //     //         float distance = Vector3.Distance(transform.position, targetPosition); // Calculate the distance to the target
-
-
-        //     //         Vector3 lookDirection = (targetPosition - transform.position).normalized;
-        //     //         Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
-        //     //         // // lock x and z rotation
-        //     //         targetRotation.x = 0;
-        //     //         targetRotation.z = 0;
-        //     //         // Set the y rotation to the target rotation
-        //     //         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
-
-
-        //     //         transform.position += direction * _speed * Time.deltaTime; // Move towards the target position
-        //     //         if (distance <= _stopDistance) // Check if the object is close enough to stop
-        //     //         {
-        //     //             reachedTarget = true; // Set the flag to true if the target is reached
-        //     //             break;
-        //     //         }
-        //     //         yield return null; // Wait for the next frame
-        //     //     }
-        //     // }
-        // }
     }
 }

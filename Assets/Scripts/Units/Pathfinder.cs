@@ -10,7 +10,6 @@ public class Pathfinder : MonoBehaviour
     [SerializeField] private PointcloudGenerator _pointcloudGenerator;
     [SerializeField] private Transform _target;
     
-    // [SerializeField] private float _rotationSpeed = 5f;
     private Rigidbody _rigidbody; // Reference to the Rigidbody component
 
     private List<AStarSearch.Pair> _path = new(); // List to store the path points
@@ -29,14 +28,6 @@ public class Pathfinder : MonoBehaviour
 
         _pointcloudGenerator.OnPointCloudGenerated += GeneratePath; // Subscribe to the event when the point cloud is generated
     }
-
-    // private void FixedUpdate()
-    // {
-    //     if (IsMoving)
-    //     {
-    //         MoveToNextPoint();
-    //     }
-    // }
     private void GeneratePath()
     {
         Debug.Log("Generating path..."); // Log the path generation process
@@ -68,42 +59,6 @@ public class Pathfinder : MonoBehaviour
         }
         return closestNode; // Return the closest node
     }
-    // private void MoveToNextPoint()
-    // {
-    //     if (_currentPathIndex >= _path.Count)
-    //     {
-    //         _rigidbody.velocity = Vector3.zero; // Stop the rigidbody movement
-    //         _rigidbody.angularVelocity = Vector3.zero; // Stop the rigidbody rotation
-    //         _currentPathIndex = 0; // Reset the path index to the start
-    //         IsMoving = false; // Stop moving if the end of the path is reached
-    //         return;
-    //     }
-
-    //     AStarSearch.Pair targetPair = _path[_currentPathIndex];
-    //     Vector3 targetPosition = GetCoordinatesFromGrid(targetPair, _pointcloudGenerator.GeneratedPointCloud); // Get the target position from the point cloud
-
-    //     Vector3 direction = (targetPosition - transform.position).normalized;
-    //     float distance = Vector3.Distance(_bottomOfUnit.transform.position, targetPosition);
-
-    //     Vector3 lookDirection = (targetPosition - transform.position).normalized;
-    //     Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
-    //     // // lock x and z rotation
-    //     targetRotation.x = 0;
-    //     targetRotation.z = 0;
-    //     // Set the y rotation to the target rotation
-    //     transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
-
-    //     // Move towards the target point
-    //     transform.position += direction * _speed * Time.deltaTime;
-
-    //     // Check if the object is close enough to the target point
-    //     if (distance < _stopDistance)
-    //     {
-    //         _currentPathIndex++; // Move to the next point in the path
-    //     }
-    // }
-   
-
 
 #if UNITY_EDITOR
     void OnDrawGizmos()

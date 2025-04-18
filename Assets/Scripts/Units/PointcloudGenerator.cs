@@ -15,12 +15,6 @@ namespace RTS.Runtime
 
         public event Action OnPointCloudGenerated; // Event to notify when the point cloud is generated
 
-        private void Start()
-        {
-
-            // GeneratePointCloud();
-        }
-
         private void Update()
         {
             //TODO: Implement better
