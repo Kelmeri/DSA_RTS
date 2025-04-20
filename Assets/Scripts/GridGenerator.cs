@@ -6,7 +6,7 @@ using UnityEngine;
 public class GridGenerator : MonoBehaviour
 {
     [SerializeField] private List<GameObject> prefabs = new List<GameObject>(); // List of objects to represent nodes
-    [SerializeField] private int gridSize = 5; // Size of the grid (N x N)
+    [SerializeField] public int gridSize = 5; // Size of the grid (N x N)
     [SerializeField] float spacing = 1f; // Spacing of each node
 
     private List<GameObject> currentNodes = new List<GameObject>(); // List for currently instantiated nodes
