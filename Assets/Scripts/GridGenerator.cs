@@ -7,17 +7,18 @@ using UnityEngine;
 public class GridGenerator : MonoBehaviour
 {
     [SerializeField] private List<GameObject> prefabs = new List<GameObject>(); // List of objects to represent nodes
-    [SerializeField] private int gridSize = 5; // Size of the grid (N x N)
+    [SerializeField] public int gridSize = 5; // Size of the grid (N x N)
     [SerializeField] float spacing = 1f; // Spacing of each node
     [SerializeField] private LayerMask groundLayer; // Layer mask for ground
     
     private List<GameObject> currentNodes = new List<GameObject>(); // List for currently instantiated nodes
 
-    private GameObject randomPrefab()
+    private GameObject RandomPrefab()
     {
-        // Select a random prefab from the prefab list
-        int rand = Random.Range(0, prefabs.Count);
-        return prefabs[rand];
+        int length = prefabs.Count; //The amount of different prefabs/nodes
+        int index = Random.Range(0, length); //Randomly chooses the node to be used
+
+        return prefabs[index]; // Returns a random node from the list
     }
 
     [ContextMenu("Generate Grid")]
@@ -32,14 +33,10 @@ public class GridGenerator : MonoBehaviour
         {
             for (int y = 0; y < gridSize; y++)
             {
-                Vector3 position = new Vector3(x * spacing, 10, y * spacing);
-                GameObject node = Instantiate(randomPrefab(), position, Quaternion.identity, this.transform);
+                Vector3 position = new Vector3(x * spacing, 0, y * spacing);
 
-                // Make sure object is grounded
-                AdjustToGround(node);
-
-                // Add new node to current nodes
-                currentNodes.Add(node);
+                //GameObject node = Instantiate(RandomPrefab(), position, Quaternion.identity, this.transform);
+                //currentNodes.Add(node);
             }
         }
     }
