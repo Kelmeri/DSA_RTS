@@ -11,9 +11,12 @@ public class GridGenerator : MonoBehaviour
 
     private List<GameObject> currentNodes = new List<GameObject>(); // List for currently instantiated nodes
 
-    private void RandomPrefab()
+    private GameObject RandomPrefab()
     {
-        // Rando stuff here
+        int length = prefabs.Count; //The amount of different prefabs/nodes
+        int index = Random.Range(0, length); //Randomly chooses the node to be used
+
+        return prefabs[index]; // Returns a random node from the list
     }
 
     [ContextMenu("Generate Grid")]
@@ -28,8 +31,9 @@ public class GridGenerator : MonoBehaviour
             for (int y = 0; y < gridSize; y++)
             {
                 Vector3 position = new Vector3(x * spacing, 0, y * spacing);
-              //GameObject node = Instantiate(prefab, position, Quaternion.identity, this.transform);
-              //currentNodes.Add(node);
+
+                //GameObject node = Instantiate(RandomPrefab(), position, Quaternion.identity, this.transform);
+                //currentNodes.Add(node);
             }
         }
     }
