@@ -10,7 +10,7 @@ public class GridGenerator : MonoBehaviour
     [Header("Grid settings")]
     [SerializeField] private List<GameObject> prefabs = new List<GameObject>(); // List of objects to represent nodes
     [SerializeField] public int gridSize = 5; // Size of the grid (N x N)
-    [SerializeField] float spacing = 1f; // Spacing of each node
+    [SerializeField] public float spacing = 1f; // Spacing of each node
     [SerializeField] private LayerMask groundLayer; // Layer mask for ground
     [Header("Camera settings")]
     [SerializeField] private Camera sceneCamera;
