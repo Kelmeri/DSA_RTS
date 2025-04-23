@@ -12,10 +12,11 @@ namespace RTS.Runtime
         private int _heightToCastFromMeters = 500;
         private const int GRIDSIZEY = 100;
         private const int GRIDSIZEX = 100;
-        private float _gridSpacingMeters = 1f;
+        [SerializeField] private float _gridSpacingMeters = 1f;
         public PointCloud GeneratedPointCloud { get; private set; } // List to store point cloud points
 
         public event Action OnPointCloudGenerated; // Event to notify when the point cloud is generated
+
         private IEnumerator Start()
         {
             yield return new WaitForEndOfFrame(); // Wait for the end of the frame 
@@ -61,6 +62,11 @@ namespace RTS.Runtime
                                 pointCloudPoints.Add(new PointCloudPoint(hit.point, x, y)); // Add the hit point to the list¨
                                 GeneratedPointCloud.Grid[x, y] = 2; // Mark the grid cell as rough terrain
                                 UnityEngine.Debug.Log("Hit rough terrain object: " + hit.collider.gameObject.name); // Log the name of the rough terrain object hit
+                                break;
+                            case 8: // Layer 8 (medium terrain layer)
+                                pointCloudPoints.Add(new PointCloudPoint(hit.point, x, y)); // Add the hit point to the list¨
+                                GeneratedPointCloud.Grid[x, y] = 3; // Mark the grid cell as medium terrain
+                                UnityEngine.Debug.Log("Hit medium terrain object: " + hit.collider.gameObject.name); // Log the name of the rough terrain object hit
                                 break;
                                 // {
 
@@ -141,7 +147,7 @@ namespace RTS.Runtime
             public Vector3 Position { get; set; } // Position of the point in the point cloud
             public int GridX { get; set; } // X coordinate in the grid
             public int GridY { get; set; } // Y coordinate in the grid
-
+            public bool IsExplored { get; set; } = false; // Track if a point has been explored
             public PointCloudPoint(Vector3 position, int gridX, int gridY)
             {
                 Position = position;
@@ -158,7 +164,7 @@ namespace RTS.Runtime
                 return; // Exit if there are no point cloud points to visualize
             }
             // Visualize the point cloud
-            Gizmos.color = Color.red; // Set the color for the point cloud
+            Gizmos.color = Color.green; // Set the color for the point cloud
             // points where grid value is 1
             var points = GeneratedPointCloud.Points.Where(p => GeneratedPointCloud.Grid[p.GridX, p.GridY] == 1).ToList();
             foreach (PointCloudPoint point in points)
@@ -167,8 +173,15 @@ namespace RTS.Runtime
             }
             // points where grid value is 2
             var points2 = GeneratedPointCloud.Points.Where(p => GeneratedPointCloud.Grid[p.GridX, p.GridY] == 2).ToList();
-            Gizmos.color = Color.yellow; // Set the color for the point cloud
+            Gizmos.color = Color.red; // Set the color for the point cloud
             foreach (PointCloudPoint point in points2)
+            {
+                Gizmos.DrawSphere(point.Position, 0.1f); // Draw a sphere at each point in the point cloud
+            }
+            // points where grid value is 3
+            var points3 = GeneratedPointCloud.Points.Where(p => GeneratedPointCloud.Grid[p.GridX, p.GridY] == 3).ToList();
+            Gizmos.color = Color.yellow; // Set the color for the point cloud
+            foreach (PointCloudPoint point in points3)
             {
                 Gizmos.DrawSphere(point.Position, 0.1f); // Draw a sphere at each point in the point cloud
             }

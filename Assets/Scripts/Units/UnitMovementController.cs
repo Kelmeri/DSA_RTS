@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using UnityEngine;
 
 namespace RTS.Runtime
@@ -43,14 +44,16 @@ namespace RTS.Runtime
 
             };
         }
+
         private void FixedUpdate()
         {
             if (!IsMoving) // Check if the object is moving
                 return; // Exit if not moving
 
             MoveTowards(transform, _targetPosition, _speed); // Move towards the target position
-            RotateTowards(_targetPosition); 
-            if(!(Vector3.Distance(transform.position, _targetPosition) <= _stopDistance)) // Check if the object is close enough to stop
+            RotateTowards(_targetPosition);
+
+            if (!(Vector3.Distance(transform.position, _targetPosition) <= _stopDistance)) // Check if the object is close enough to stop
             {
                 return;
             }
@@ -63,6 +66,7 @@ namespace RTS.Runtime
             }
             _targetPosition = GridUtils.GetCoordinatesFromGrid(_path[_currentPathIndex], _pointcloudGenerator.GeneratedPointCloud); // Get the next target position from the path
         }
+
         private void RotateTowards(Vector3 targetPosition)
         {
             Vector3 lookDirection = (targetPosition - transform.position).normalized; // Calculate the direction to the target
