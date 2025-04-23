@@ -28,7 +28,7 @@ public class Pathfinder : MonoBehaviour
 
         _pointcloudGenerator.OnPointCloudGenerated += GeneratePath; // Subscribe to the event when the point cloud is generated
     }
-    private void GeneratePath()
+    public void GeneratePath()
     {
         Debug.Log("Generating path..."); // Log the path generation process
         AStarSearch.Pair start = GetClosestNode(transform.position, _pointcloudGenerator.GeneratedPointCloud); // Start point (bottom of the unit)
