@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1238692306581362898}
   - component: {fileID: 3132903067222881430}
+  - component: {fileID: 8832464542717501214}
   m_Layer: 7
   m_Name: Node_Castle
   m_TagString: Untagged
@@ -56,6 +57,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3, y: 2.7, z: 3}
   m_Center: {x: 0, y: 1.35, z: 0}
+--- !u!114 &8832464542717501214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3704358399637458479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28f23621b24247f449d96fdaf54cfb0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasTreasure: 0
+  isCastle: 1
 --- !u!1 &8173269660166199094
 GameObject:
   m_ObjectHideFlags: 0

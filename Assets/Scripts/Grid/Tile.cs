@@ -1,25 +1,42 @@
 using Codice.Client.BaseCommands;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class Tile : MonoBehaviour
 {
-    private Vector2Int tilePosition;
+    [SerializeField] private bool hasTreasure = false; // Boolean to assign the tile as a treasure node
+    private GameObject treasure; 
+    private Vector2Int tilePosition; // Position of the tile
+
+    [SerializeField] private bool isCastle = false;
+
+    // Public getters and setters
+    public bool HasTreasure
+    {
+        get { return hasTreasure; }
+        set { hasTreasure = value; }
+    }
+    public Vector2Int TilePosition => tilePosition;
 
     private void Awake()
     {
-        tilePosition = GetTilePosition(transform.position);
-        RenameTile(tilePosition);
+        Transform treasureT = transform.Find("the treasure");
+        if (treasureT != null) { treasure = treasureT.gameObject; }
+
+        tilePosition = GetTilePosition(transform.position); // Gets the position of the tile
+        
+        RenameTile(tilePosition); // Renames the tile for easier readability
         Hide(); // Hide tiles in the beginning
     }
 
     private Vector2Int GetTilePosition(Vector3 worldPos)
     {
-        int x = Mathf.FloorToInt(worldPos.x);
-        int y = Mathf.FloorToInt(worldPos.z);
+        int x = Mathf.FloorToInt(worldPos.x / 3); // Divide by 3 to account for spacing
+        int y = Mathf.FloorToInt(worldPos.z / 3);
         return new Vector2Int(x, y);
     }
 
@@ -33,6 +50,7 @@ public class Tile : MonoBehaviour
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
+            treasure.SetActive(hasTreasure);
         }
     }
 
@@ -40,7 +58,20 @@ public class Tile : MonoBehaviour
     {
         foreach (Transform child in transform)
         {
-            child.gameObject.SetActive(false);
+            if (isCastle)
+            {
+                child.gameObject.SetActive(true);
+            }
+            else { child.gameObject.SetActive(false); }
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (hasTreasure)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(gameObject.transform.position + (Vector3.up * 5), 0.5f);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace RTS.Runtime
     {
         [SerializeField] private Pathfinder _pathfinder; // Reference to the Pathfinder component
         [SerializeField] private PointcloudGenerator _pointcloudGenerator; // Reference to the PointcloudGenerator component
+        [SerializeField] private Explorer _explorer; // Reference to Explorer
         [SerializeField] private float _speed = 5f;
         [SerializeField] private float _stopDistance = 0.1f; // Distance to stop from the target
         private readonly float _rotationSpeed = 100f;
@@ -36,12 +37,17 @@ namespace RTS.Runtime
         {
             UnityEngine.Assertions.Assert.IsNotNull(_pathfinder, "Pathfinder reference is missing in UnitMovementController.");
             UnityEngine.Assertions.Assert.IsNotNull(_pointcloudGenerator, "PointcloudGenerator reference is missing in UnitMovementController.");
+            UnityEngine.Assertions.Assert.IsNotNull(_explorer, "Explorer reference is missing in UnitMovementController.");
+
             _pathfinder.OnPathGenerated += path =>
             {
                 _path = path; // Store the generated path
-                _targetPosition = GridUtils.GetCoordinatesFromGrid(path[0], _pointcloudGenerator.GeneratedPointCloud); // Get the target position from the path
-                IsMoving = true; // Set the moving status to true when the path is generated
-
+                if (_path.Count > 0)
+                {
+                    _targetPosition = GridUtils.GetCoordinatesFromGrid(path[0], _pointcloudGenerator.GeneratedPointCloud); // Get the target position from the path
+                    IsMoving = true; // Set the moving status to true when the path is generated
+                    _currentPathIndex = 0;
+                }
             };
         }
 
@@ -50,21 +56,47 @@ namespace RTS.Runtime
             if (!IsMoving) // Check if the object is moving
                 return; // Exit if not moving
 
-            MoveTowards(transform, _targetPosition, _speed); // Move towards the target position
+            // Move towards the current target position
+            MoveTowards(transform, _targetPosition, _speed);
             RotateTowards(_targetPosition);
 
-            if (!(Vector3.Distance(transform.position, _targetPosition) <= _stopDistance)) // Check if the object is close enough to stop
+            // Check if the unit has reached the current target
+            if (Vector3.Distance(transform.position, _targetPosition) <= _stopDistance)
             {
-                return;
+                // Get the grid position corresponding to the target
+                Vector2Int targetGridPosition = new Vector2Int(Mathf.FloorToInt(_targetPosition.x), Mathf.FloorToInt(_targetPosition.z));
+                Tile currentTile = _explorer.grid[targetGridPosition.x / 3, targetGridPosition.y / 3];
+
+                // If the current target has treasure, mark it as collected
+                if (currentTile != null && currentTile.HasTreasure)
+                {
+                    currentTile.HasTreasure = false;  // Collect the treasure
+                    Debug.Log("Treasure collected at: " + _targetPosition);
+                }
+
+                // If we reached the current target, move to the next one in the path
+                _currentPathIndex++;
+
+                // Check if there are more targets in the path
+                if (_currentPathIndex < _path.Count)
+                {
+                    _targetPosition = GridUtils.GetCoordinatesFromGrid(_path[_currentPathIndex], _pointcloudGenerator.GeneratedPointCloud);
+                }
+                else
+                {
+                    // If the path is completed, stop the movement
+                    IsMoving = false;
+                    _currentPathIndex = 0; // Reset the path index for the next round of pathfinding
+                    Debug.Log("Path completed.");
+
+                    Tile nextTargetTile = _explorer.GetNextTarget();
+                    // If the target is not null, recalculate the path
+                    if (nextTargetTile != null)
+                    {
+                        _pathfinder.GeneratePath(); // Call pathfinder to generate a new path
+                    }
+                }
             }
-            _currentPathIndex++; // Increment the path index
-            if (_currentPathIndex >= _path.Count) // Check if the path index is out of bounds
-            {
-                IsMoving = false; // Stop moving when the path is completed
-                _currentPathIndex = 0; // Reset the path index
-                return;
-            }
-            _targetPosition = GridUtils.GetCoordinatesFromGrid(_path[_currentPathIndex], _pointcloudGenerator.GeneratedPointCloud); // Get the next target position from the path
         }
 
         private void RotateTowards(Vector3 targetPosition)

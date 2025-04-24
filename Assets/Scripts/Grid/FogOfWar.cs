@@ -32,8 +32,8 @@ public class FogOfWar : MonoBehaviour
 
     private Vector2Int GetTilePosition(Vector3 worldPos)
     {
-        int x = Mathf.FloorToInt(worldPos.x);
-        int y = Mathf.FloorToInt(worldPos.z);
+        int x = Mathf.FloorToInt(worldPos.x / 3);
+        int y = Mathf.FloorToInt(worldPos.z / 3);
         return new Vector2Int(x, y);
     }
 
