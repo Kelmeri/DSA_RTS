@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Assertions;
 
 
 namespace RTS.Runtime
@@ -17,10 +16,10 @@ namespace RTS.Runtime
 
         private void Start()
         {
-            UnityEngine.Assertions.Assert.IsNotNull(_menuUI, "Menu UI reference is missing.");
-            UnityEngine.Assertions.Assert.IsNotNull(_playerControls, "PlayerControls reference is missing in MenuController.");
-            UnityEngine.Assertions.Assert.IsNotNull(_resumeButton, "Resume button reference is missing.");
-            UnityEngine.Assertions.Assert.IsNotNull(_MainMenuButton, "Main menu button reference is missing.");
+            Assert.IsNotNull(_menuUI, "Menu UI reference is missing.");
+            Assert.IsNotNull(_playerControls, "PlayerControls reference is missing in MenuController.");
+            Assert.IsNotNull(_resumeButton, "Resume button reference is missing.");
+            Assert.IsNotNull(_MainMenuButton, "Main menu button reference is missing.");
 
             _menuUI.SetActive(false); // Hide the menu UI at the start
             _playerControls.OnEscapeActionEvent += ToggleMenu; // Subscribe to the escape action event

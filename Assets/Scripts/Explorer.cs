@@ -47,13 +47,6 @@ public class Explorer : MonoBehaviour
             // Update target to the next treasure or goal
             currentTarget = GetNextTarget();
 
-            //// If the current target is a goal, we stop
-            //if (currentTarget == goalTile)
-            //{
-            //    Debug.Log("Final destination reached (Goal).");
-            //    return;  // Stop the process
-            //}
-
             // Set the new target for the Pathfinder and regenerate the path
             _pf.SetTarget(currentTarget.transform);
         }

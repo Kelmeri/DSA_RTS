@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.Assertions;
 namespace RTS.Runtime
 {
     [RequireComponent(typeof(PlayerInput))]
@@ -18,9 +19,9 @@ namespace RTS.Runtime
             // Get the PlayerInput component and assert that it is not null
             _playerInput = GetComponent<PlayerInput>();
 
-            UnityEngine.Assertions.Assert.IsNotNull(_playerInput, "PlayerInput component is missing on this GameObject.");
-            UnityEngine.Assertions.Assert.IsNotNull(_escapeAction, "Escape action reference is missing.");
-            UnityEngine.Assertions.Assert.IsNotNull(_moveAction, "Move action reference is missing.");
+            Assert.IsNotNull(_playerInput, "PlayerInput component is missing on this GameObject.");
+            Assert.IsNotNull(_escapeAction, "Escape action reference is missing.");
+            Assert.IsNotNull(_moveAction, "Move action reference is missing.");
         }
         private void Start()
         {
@@ -41,7 +42,7 @@ namespace RTS.Runtime
             }
             // Handle the move action here (e.g., move the player character)
             Vector2 moveInput = _moveAction.action.ReadValue<Vector2>();
-            //Not optimal idc
+            //Quick solution not optimized, doesn't matter
             OnMoveActionEvent?.Invoke(moveInput); // Invoke the move action event with the input value
             if (!_moveAction.action.IsPressed())
             {

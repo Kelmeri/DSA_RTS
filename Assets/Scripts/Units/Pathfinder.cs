@@ -1,11 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using RTS.Runtime;
-using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Pathfinder : MonoBehaviour
 {
@@ -15,24 +12,20 @@ public class Pathfinder : MonoBehaviour
     [SerializeField] private Explorer _explorer; // Reference to explorer script
 
     private Rigidbody _rigidbody; // Reference to the Rigidbody component
-
     private List<AStarSearch.Pair> _path = new(); // List to store the path points
-    // private int _currentPathIndex = 0; // Index of the current path point
-
     private Vector3 _lastTargetPosition;  // Store the last target position
     private float _pathRecalculationThreshold = 1.0f;  // Minimum distance to recalculate the path
-
     public event Action<List<AStarSearch.Pair>> OnPathGenerated; // Event to notify when the path is generated
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>(); // Get the Rigidbody component attached to the object
 
-        UnityEngine.Assertions.Assert.IsNotNull(_pointcloudGenerator, "PointcloudGenerator reference is missing in Pathfinder.");
-        UnityEngine.Assertions.Assert.IsNotNull(_target, "Target reference is missing in Pathfinder.");
-        UnityEngine.Assertions.Assert.IsNotNull(_bottomOfUnit, "BottomOfUnit reference is missing in Pathfinder.");
-        UnityEngine.Assertions.Assert.IsNotNull(_rigidbody, "Rigidbody reference is missing in Pathfinder.");
-        UnityEngine.Assertions.Assert.IsNotNull(_explorer, "Explorer reference is missing in Pathfinder.");
+        Assert.IsNotNull(_pointcloudGenerator, "PointcloudGenerator reference is missing in Pathfinder.");
+        Assert.IsNotNull(_target, "Target reference is missing in Pathfinder.");
+        Assert.IsNotNull(_bottomOfUnit, "BottomOfUnit reference is missing in Pathfinder.");
+        Assert.IsNotNull(_rigidbody, "Rigidbody reference is missing in Pathfinder.");
+        Assert.IsNotNull(_explorer, "Explorer reference is missing in Pathfinder.");
 
         _pointcloudGenerator.OnPointCloudGenerated += GeneratePath; // Subscribe to the event when the point cloud is generated
     }
@@ -44,9 +37,6 @@ public class Pathfinder : MonoBehaviour
 
         AStarSearch.Pair start = GetClosestNode(transform.position, _pointcloudGenerator.GeneratedPointCloud); // Start point (bottom of the unit)
         AStarSearch.Pair end = GetClosestNode(newTarget.position, _pointcloudGenerator.GeneratedPointCloud); // End point (target position)
-        
-        //Debug.Log(_target.position);
-        //Debug.Log(transform.position);
         
         Debug.Log($"Attempting to generate path from {start.first},{start.second} to {end.first},{end.second}");
 

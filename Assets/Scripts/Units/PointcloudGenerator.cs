@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
@@ -23,18 +22,6 @@ namespace RTS.Runtime
             GeneratePointCloud(); // Call the method to generate the point cloud
         }
 
-        // private void Update()
-        // {
-        //     //TODO: Implement better
-        //     //dont do if exists
-        //     if (GeneratedPointCloud != null)
-        //         return;
-        //     if (Input.GetKeyDown(KeyCode.G)) // Press G to regenerate the point cloud 
-        //     {
-        //         GeneratePointCloud(); // Call the method to generate the point cloud
-        //     }
-        // }
-
         private void GeneratePointCloud()
         {
             // Clear the previous point cloud coordinates
@@ -48,7 +35,6 @@ namespace RTS.Runtime
                 {
                     Vector3 position = new(x * _gridSpacingMeters, _heightToCastFromMeters, y * _gridSpacingMeters);
 
-                    // RaycastHit hit = Physics.Raycast(position, Vector3.down, _heightToCastFromMeters);
                     if (Physics.Raycast(position, Vector3.down, out RaycastHit hit, _heightToCastFromMeters))
                     {
                         switch (hit.collider.gameObject.layer) // Check the layer of the hit object
@@ -68,55 +54,9 @@ namespace RTS.Runtime
                                 GeneratedPointCloud.Grid[x, y] = 3; // Mark the grid cell as medium terrain
                                 UnityEngine.Debug.Log("Hit medium terrain object: " + hit.collider.gameObject.name); // Log the name of the rough terrain object hit
                                 break;
-                                // {
-
-                                //     default:
-                                // }
                         }
-                        // else
-                        // {
-                        //     GeneratedPointCloud.Grid[x, y] = 0; // Mark the grid cell as not walkable
-                        // }
-                        // switch ()
-                        // {
-
-                        //     default:
-                        // }
-
-                        // foreach (RaycastHit hit1 in hits)
-                        // {
-                        //     switch (hit1.collider.gameObject.layer) // Check the layer of the hit object
-                        //     {
-                        //         case 6: // Layer 3 (NormalTerrain layer)
-                        //             Debug.Log("Hit default object: " + hit1.collider.gameObject.name); // Log the name of the default object hit
-                        //             pointCloudPoints.Add(new PointCloudPoint(hit1.point, x, y)); // Add the hit point to the list
-                        //             GeneratedPointCloud.Grid[x, y] = 1; // Mark the grid cell as walkable
-                        //             break;
-                        //         case 7: // Layer 6 (rough terrain layer)
-                        //         pointCloudPoints.Add(new PointCloudPoint(hit1.point, x, y)); // Add the hit point to the list¨
-                        //             GeneratedPointCloud.Grid[x, y] = 2; // Mark the grid cell as rough terrain
-                        //             Debug.Log("Hit rough terrain object: " + hit1.collider.gameObject.name); // Log the name of the rough terrain object hit
-                        //             break;
-                        //     }
-                        //     // if (hit1.collider.gameObject.tag == "PointCloudable")
-                        //     // {
-                        //     //     Debug.Log("Hit static object: " + hit1.collider.gameObject.name); // Log the name of the static object hit
-                        //     //     pointCloudPoints.Add(new PointCloudPoint(hit1.point, x, y)); // Add the hit point to the list
-                        //     // }
-                        //     // break; // Exit the loop after the first hit
-                        // }
                     }
                 }
-                // GeneratedPointCloud = new PointCloud(new int[GRIDSIZEX, GRIDSIZEY], pointCloudPoints); // Initialize the point cloud with the generated points
-
-                // for (int x = 0; x < GRIDSIZEX; x++)
-                // {
-                //     for (int y = 0; y < GRIDSIZEY; y++)
-                //     {
-                //         GeneratedPointCloud.Grid[x, y] = 1; // mark all grid cells as walkable
-                //     }
-                // }
-                // Notify subscribers that the point cloud has been generated
             }
             string debug = "";
             // print all the grid values
@@ -185,12 +125,6 @@ namespace RTS.Runtime
             {
                 Gizmos.DrawSphere(point.Position, 0.1f); // Draw a sphere at each point in the point cloud
             }
-
-
-            // foreach (PointCloudPoint point in GeneratedPointCloud.Points)
-            // {
-            //     Gizmos.DrawSphere(point.Position, 0.1f); // Draw a sphere at each point in the point cloud
-            // }
         }
 #endif
     }
