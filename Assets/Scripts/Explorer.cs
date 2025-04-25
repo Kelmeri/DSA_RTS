@@ -34,28 +34,9 @@ public class Explorer : MonoBehaviour
         // If the unit has reached the target, update the target to the next treasure or goal
         if (Vector3.Distance(transform.position, currentTarget.transform.position) < 1f)  // Threshold distance to consider the target "reached"
         {
-            if (currentTarget.HasTreasure)
-            {
-                Debug.Log("Treasure found, moving to the next one.");
-                currentTarget.HasTreasure = false;
-            }
-            else
-            {
-                Debug.Log("Goal reached.");
-            }
-
             // Update target to the next treasure or goal
             currentTarget = GetNextTarget();
-
-            //// If the current target is a goal, we stop
-            //if (currentTarget == goalTile)
-            //{
-            //    Debug.Log("Final destination reached (Goal).");
-            //    return;  // Stop the process
-            //}
-
-            // Set the new target for the Pathfinder and regenerate the path
-            _pf.SetTarget(currentTarget.transform);
+            _pf.SetTarget(currentTarget.transform); // Send target to pathfinder
         }
     }
 
