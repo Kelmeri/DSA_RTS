@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,7 +12,7 @@ public class GridGenerator : MonoBehaviour
     [Header("Camera settings")]
     [SerializeField] private Camera sceneCamera;
     [SerializeField] private Vector3 cameraOffset;
-    
+
     private List<GameObject> currentNodes = new List<GameObject>(); // List for currently instantiated nodes
 
     // Dictionary to map layer names to colors
@@ -70,7 +68,7 @@ public class GridGenerator : MonoBehaviour
         currentNodes.Clear();
     }
 
-    private void AdjustToGround(GameObject obj) 
+    private void AdjustToGround(GameObject obj)
     {
         Ray rayDown = new Ray(obj.transform.position, Vector3.down);
         Ray rayUp = new Ray(obj.transform.position, Vector3.up);

@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace RTS.Runtime
 {
@@ -35,9 +33,9 @@ namespace RTS.Runtime
 
         private void Start()
         {
-            UnityEngine.Assertions.Assert.IsNotNull(_pathfinder, "Pathfinder reference is missing in UnitMovementController.");
-            UnityEngine.Assertions.Assert.IsNotNull(_pointcloudGenerator, "PointcloudGenerator reference is missing in UnitMovementController.");
-            UnityEngine.Assertions.Assert.IsNotNull(_explorer, "Explorer reference is missing in UnitMovementController.");
+            Assert.IsNotNull(_pathfinder, "Pathfinder reference is missing in UnitMovementController.");
+            Assert.IsNotNull(_pointcloudGenerator, "PointcloudGenerator reference is missing in UnitMovementController.");
+            Assert.IsNotNull(_explorer, "Explorer reference is missing in UnitMovementController.");
 
             _pathfinder.OnPathGenerated += path =>
             {
@@ -99,6 +97,10 @@ namespace RTS.Runtime
             }
         }
 
+        /// <summary>
+        /// Rotate the object towards the target position
+        /// </summary>
+        /// <param name="targetPosition"></param>
         private void RotateTowards(Vector3 targetPosition)
         {
             Vector3 lookDirection = (targetPosition - transform.position).normalized; // Calculate the direction to the target
@@ -109,6 +111,12 @@ namespace RTS.Runtime
             // Set the y rotation to the target rotation
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed); // Rotate towards the target position
         }
+        /// <summary>
+        /// Move the object towards the target position
+        /// </summary>
+        /// <param name="objectToMove"></param>
+        /// <param name="positionToMoveTo"></param>
+        /// <param name="speed"></param>
         private static void MoveTowards(Transform objectToMove, Vector3 positionToMoveTo, float speed = 5f)
         {
 

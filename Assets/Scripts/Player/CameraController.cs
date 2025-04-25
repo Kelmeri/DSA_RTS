@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace RTS.Runtime
 {
@@ -11,10 +12,10 @@ namespace RTS.Runtime
 
         private void Start()
         {
-            UnityEngine.Assertions.Assert.IsNotNull(_cameraBounds, "Camera bounds reference is missing.");
-            UnityEngine.Assertions.Assert.IsNotNull(_playerControls, "PlayerControls reference is missing in CameraController.");
-            UnityEngine.Assertions.Assert.IsNotNull(_playerData, "PlayerData reference is missing in CameraController.");
-            UnityEngine.Assertions.Assert.IsNotNull(_cameraTransform, "Camera transform reference is missing in CameraController.");
+            Assert.IsNotNull(_cameraBounds, "Camera bounds reference is missing.");
+            Assert.IsNotNull(_playerControls, "PlayerControls reference is missing in CameraController.");
+            Assert.IsNotNull(_playerData, "PlayerData reference is missing in CameraController.");
+            Assert.IsNotNull(_cameraTransform, "Camera transform reference is missing in CameraController.");
 
             _playerControls.OnMoveActionEvent += MoveAction; // Subscribe to the escape action event
         }
