@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Codice.CM.Common.Merge.MergePathResolver;
 
 public class Explorer : MonoBehaviour
 {

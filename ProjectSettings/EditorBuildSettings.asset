@@ -5,11 +5,14 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/UIScene.unity
     guid: 2db9a1db65e5bef4da5f391f8dcb1663
   - enabled: 0
     path: Assets/Scenes/MainRTS.unity
     guid: 12e7c9dc2b1e5d740a710b4f42211504
+  - enabled: 1
+    path: Assets/Scenes/GridPlayground.unity
+    guid: 37d79db74c396a14e803f924629f03d0
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 27c6c71188c57c74a8433dfdbeaa57b7, type: 3}
